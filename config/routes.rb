@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   root "top#home"   # ルートパスをtop#homeに設定
   get "about", to: "top#about"  # /about でtop#aboutにアクセス
 
-  # 他のルーティングを追加する場合はここに記述
+  # 投稿のルーティングを追加（edit, update, destroy も追加）
+  resources :posts, only: [:new, :create, :index, :show, :edit, :update, :destroy]
 end
