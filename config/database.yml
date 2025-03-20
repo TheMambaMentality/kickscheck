@@ -1,0 +1,23 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: 'Shoma-0319'  # ここにMySQLのrootパスワードを入れる（ダブルクォート必須）
+  host: localhost  # 追加
+  socket: /var/lib/mysql/mysql.sock
+
+development:
+  <<: *default
+  database: kickscheck_development
+
+test:
+  <<: *default
+  database: kickscheck_test
+
+production:
+  <<: *default
+  database: kickscheck_production
+  username: kickscheck
+  password: <%= ENV['KICKSCHECK_DATABASE_PASSWORD'] %>
+

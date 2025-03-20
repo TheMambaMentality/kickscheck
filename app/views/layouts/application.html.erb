@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KicksCheck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+
+  <!-- JavaScript 読み込み（Webpacker用） -->
+  <%= javascript_pack_tag "application", "data-turbo-track": "reload", defer: true %>
+</head>
+<body>
+  <nav>
+    <%= link_to "Home", root_path %> |
+    <%= link_to "About", about_path %> |
+    <% if user_signed_in? %>
+      <%= link_to "Profile", edit_user_registration_path %> |
+      <%= link_to "Logout", destroy_user_session_path, data: { method: :delete } %>
+    <% else %>
+      <%= link_to "Sign Up", new_user_registration_path %> |
+      <%= link_to "Login", new_user_session_path %>
+    <% end %>
+  </nav>
+
+  <%= yield %>
+</body>
+</html>

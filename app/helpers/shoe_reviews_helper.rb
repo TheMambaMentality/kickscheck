@@ -1,0 +1,2 @@
+module ShoeReviewsHelper
+end
