@@ -24,6 +24,33 @@
     <% end %>
   </nav>
 
+  <!-- 🔹 追加：フラッシュメッセージの表示 -->
+  <div class="container mt-3">
+    <% if flash[:notice] %>
+      <div id="flash-message" class="alert alert-success">
+        <%= flash[:notice] %>
+      </div>
+    <% elsif flash[:alert] %>
+      <div id="flash-message" class="alert alert-danger">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+  </div>
+
   <%= yield %>
+
+  <!-- 🔹 追加：フラッシュメッセージをフェードアウトさせるJavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let flashMessage = document.getElementById("flash-message");
+      if (flashMessage) {
+        setTimeout(() => {
+          flashMessage.style.transition = "opacity 0.5s ease-out";
+          flashMessage.style.opacity = "0";
+          setTimeout(() => { flashMessage.style.display = "none"; }, 500);
+        }, 3000);
+      }
+    });
+  </script>
 </body>
 </html>
