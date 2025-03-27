@@ -12,17 +12,24 @@
   <%= javascript_pack_tag "application", "data-turbo-track": "reload", defer: true %>
 </head>
 <body>
-  <nav>
-    <%= link_to "Home", root_path %> |
-    <%= link_to "About", about_path %> |
-    <% if user_signed_in? %>
-      <%= link_to "Profile", edit_user_registration_path %> |
-      <%= link_to "Logout", destroy_user_session_path, data: { method: :delete } %>
-    <% else %>
-      <%= link_to "Sign Up", new_user_registration_path %> |
-      <%= link_to "Login", new_user_session_path %>
-    <% end %>
-  </nav>
+
+<nav class="navbar">
+  <!-- 追加：アイコン画像 -->
+  <%= link_to root_path do %>
+    <%= image_tag "app_icon.png", alt: "KicksCheck Logo", size: "40x40", class: "app-icon" %>
+  <% end %>
+
+  <!-- 既存のナビゲーション -->
+  <%= link_to "Home", root_path %> |
+  <%= link_to "About", about_path %> |
+  <% if user_signed_in? %>
+    <%= link_to "Profile", edit_user_registration_path %> |
+    <%= link_to "Logout", destroy_user_session_path, data: { method: :delete } %>
+  <% else %>
+    <%= link_to "Sign Up", new_user_registration_path %> |
+    <%= link_to "Login", new_user_session_path %>
+  <% end %>
+</nav>
 
   <!-- 🔹 追加：フラッシュメッセージの表示 -->
   <div class="container mt-3">

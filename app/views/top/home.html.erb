@@ -1,14 +1,22 @@
-<h1>Welcome to Kicks Check!</h1>
-<p>バスケットボールレビューサイトへようこそ！</p>
+<div class="container mt-4">
 
-<%= link_to "投稿一覧へ", posts_path, class: "btn btn-primary mb-3" %>
+  <!-- 🔸トップビジュアル画像（画面横幅いっぱい） -->
+  <%= image_tag "top_icon.png", alt: "KicksCheck Visual", class: "img-fluid mb-4", style: "max-width: 100%; height: auto; max-height: 300px;" %>
 
-<h2>新着Post</h2>
-<div class="container">
+  <p>バスケットボールシューズのレビューサイトへようこそ！</p>
+
+  <%= link_to "投稿一覧へ", posts_path, class: "btn btn-primary mb-3" %>
+
+  <h2>新着Post</h2>
   <div class="row">
     <% @recent_posts.each do |post| %>
       <div class="col-md-4 mb-3">
-        <div class="card">
+        <div class="card h-100">
+          <!-- 🔸画像表示（ActiveStorage 導入後に有効化） -->
+          <%# if post.image.attached? %>
+            <%#= image_tag post.image, class: "card-img-top", alt: post.title %>
+          <%# end %>
+
           <div class="card-body">
             <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
             <p class="card-text"><%= truncate(post.content, length: 50) %></p>
