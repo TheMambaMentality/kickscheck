@@ -16,6 +16,8 @@ en:
       timeout: "Your session expired. Please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your email address before continuing."
+      deleted_account: "This account has been deactivated." # ← ✅ 追加部分（退会済み）
+
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
@@ -53,6 +55,7 @@ en:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+
   errors:
     messages:
       already_confirmed: "was already confirmed, please try signing in"
@@ -63,3 +66,4 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+        

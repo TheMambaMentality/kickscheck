@@ -1,14 +1,19 @@
 <h2>新しい投稿を作成</h2>
 
-<%= form_with(model: @post, url: posts_path, local: true) do |f| %>
+<%= form_with(model: @post, url: posts_path, local: true, html: { multipart: true }) do |f| %>
   <div>
-    <%= f.label :title, "タイトル" %>
+    <%= f.label :title, "商品名" %>
     <%= f.text_field :title, required: true %>
   </div>
 
   <div>
     <%= f.label :content, "内容" %>
     <%= f.text_area :content, required: true %>
+  </div>
+
+  <div>
+    <%= f.label :images, "画像（複数可）" %>
+    <%= f.file_field :images, multiple: true, direct_upload: true %>
   </div>
 
   <div>
