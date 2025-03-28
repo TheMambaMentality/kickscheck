@@ -7,57 +7,66 @@
   <%= csp_meta_tag %>
 
   <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
-
-  <!-- JavaScript 読み込み（Webpacker用） -->
   <%= javascript_pack_tag "application", "data-turbo-track": "reload", defer: true %>
 </head>
 <body>
 
-<nav class="navbar">
-  <!-- 追加：アイコン画像 -->
-  <%= link_to root_path do %>
-    <%= image_tag "app_icon.png", alt: "KicksCheck Logo", size: "40x40", class: "app-icon" %>
-  <% end %>
+<nav class="navbar d-flex justify-content-between align-items-center px-3 py-2" style="background-color: #f8f9fa;">
+  <div>
+    <!-- 🔸ロゴアイコン -->
+    <%= link_to root_path do %>
+      <%= image_tag "app_icon.png", alt: "KicksCheck Logo", size: "40x40", class: "app-icon me-2" %>
+    <% end %>
 
-  <!-- 既存のナビゲーション -->
-  <%= link_to "Home", root_path %> |
-  <%= link_to "About", about_path %> |
-  <% if user_signed_in? %>
-    <%= link_to "Profile", edit_user_registration_path %> |
-    <%= link_to "Logout", destroy_user_session_path, data: { method: :delete } %>
-  <% else %>
-    <%= link_to "Sign Up", new_user_registration_path %> |
-    <%= link_to "Login", new_user_session_path %>
-  <% end %>
-</nav>
-
-  <!-- 🔹 追加：フラッシュメッセージの表示 -->
-  <div class="container mt-3">
-    <% if flash[:notice] %>
-      <div id="flash-message" class="alert alert-success">
-        <%= flash[:notice] %>
-      </div>
-    <% elsif flash[:alert] %>
-      <div id="flash-message" class="alert alert-danger">
-        <%= flash[:alert] %>
-      </div>
+    <!-- 🔸ナビゲーションリンク -->
+    <%= link_to "Home", root_path, class: "me-2" %>
+    <%= link_to "About", about_path, class: "me-2" %>
+    <% if user_signed_in? %>
+      <%= link_to "Profile", edit_user_registration_path, class: "me-2" %>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "me-2" %>
+    <% else %>
+      <%= link_to "Sign Up", new_user_registration_path, class: "me-2" %>
+      <%= link_to "Login", new_user_session_path, class: "me-2" %>
     <% end %>
   </div>
 
-  <%= yield %>
+  <!-- 🔍 検索フォーム -->
+  <div>
+    <%= form_with url: search_posts_path, method: :get, local: true, class: "d-flex" do |f| %>
+      <%= f.text_field :keyword, placeholder: "商品名を検索", class: "form-control me-2", required: true %>
+      <%= f.submit "検索", class: "btn btn-outline-primary" %>
+    <% end %>
+  </div>
+</nav>
 
-  <!-- 🔹 追加：フラッシュメッセージをフェードアウトさせるJavaScript -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      let flashMessage = document.getElementById("flash-message");
-      if (flashMessage) {
-        setTimeout(() => {
-          flashMessage.style.transition = "opacity 0.5s ease-out";
-          flashMessage.style.opacity = "0";
-          setTimeout(() => { flashMessage.style.display = "none"; }, 500);
-        }, 3000);
-      }
-    });
-  </script>
+<!-- 🔹 フラッシュメッセージ -->
+<div class="container mt-3">
+  <% if flash[:notice] %>
+    <div id="flash-message" class="alert alert-success">
+      <%= flash[:notice] %>
+    </div>
+  <% elsif flash[:alert] %>
+    <div id="flash-message" class="alert alert-danger">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+</div>
+
+<%= yield %>
+
+<!-- 🔹 フラッシュメッセージを自動でフェードアウト -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let flashMessage = document.getElementById("flash-message");
+    if (flashMessage) {
+      setTimeout(() => {
+        flashMessage.style.transition = "opacity 0.5s ease-out";
+        flashMessage.style.opacity = "0";
+        setTimeout(() => { flashMessage.style.display = "none"; }, 500);
+      }, 3000);
+    }
+  });
+</script>
+
 </body>
 </html>

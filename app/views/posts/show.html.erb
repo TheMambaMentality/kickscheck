@@ -1,9 +1,55 @@
 <h2><%= @post.title %></h2>
 <p><%= @post.content %></p>
 
+<% if @post.images.attached? %>
+  <div class="d-flex flex-wrap mb-3">
+    <% @post.images.each do |image| %>
+      <%= image_tag image.variant(resize_to_limit: [600, 600]).processed, class: "img-fluid mb-3 mr-2", style: "max-height: 300px;" %>
+    <% end %>
+  </div>
+<% end %>
+
 <% if @post.user == current_user %>
   <%= link_to "編集", edit_post_path(@post) %> |
   <%= link_to "削除", post_path(@post), method: :delete, data: { confirm: "本当に削除しますか？" } %> |
 <% end %>
 
 <%= link_to "一覧へ戻る", posts_path %>
+
+<hr>
+
+<!-- 🔸 コメントエリア -->
+<h3>コメント</h3>
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger"><%= flash[:alert] %></div>
+<% end %>
+
+<% if flash[:notice] %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% end %>
+
+<%= form_with(model: [@post, Comment.new], local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :content, "コメント内容" %>
+    <%= f.text_area :content, rows: 3, class: "form-control", placeholder: "コメントを入力" %>
+  </div>
+  <%= f.submit "コメントする", class: "btn btn-primary mt-2" %>
+<% end %>
+
+<!-- 🔸 コメント一覧 -->
+<% @post.comments.order(created_at: :desc).each do |comment| %>
+  <div class="card mt-3">
+    <div class="card-body">
+      <p><strong><%= comment.user.name %>：</strong> <%= comment.content %></p>
+      <p class="text-muted"><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+
+      <% if comment.user == current_user %>
+        <%= link_to "削除", post_comment_path(@post, comment), method: :delete, data: { confirm: "削除してもよろしいですか？" }, class: "btn btn-sm btn-danger" %>
+
+      <% elsif admin_signed_in? %>
+        <%= link_to "【管理者】削除", admin_comment_path(comment), method: :delete, data: { confirm: "管理者として削除します。よろしいですか？" }, class: "btn btn-sm btn-warning" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
