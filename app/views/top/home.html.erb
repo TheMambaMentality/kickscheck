@@ -1,23 +1,38 @@
-<div class="container mt-4">
+<div class="container mt-4 px-0">
 
   <!-- 🔸トップビジュアル画像（画面横幅いっぱい） -->
-  <%= image_tag "top_icon.png", alt: "KicksCheck Visual", class: "img-fluid mb-4", style: "max-width: 100%; height: auto; max-height: 300px;" %>
+  <%= image_tag "top_icon.png", alt: "KicksCheck Visual", class: "img-fluid w-100 mb-4", style: "height: auto; max-height: 350px;" %>
 
+  <!-- 🔸キャッチコピー -->
+  <div class="text-center mb-4">
+    <p class="lead">バスケットボールシューズのレビューサイトへようこそ！</p>
+    <%= link_to "投稿一覧へ", posts_path, class: "btn btn-outline-dark" %>
+  </div>
+
+  <div class="container mt-5">
+
+  <!-- 🔸挨拶テキスト -->
   <p>バスケットボールシューズのレビューサイトへようこそ！</p>
 
-  <%= link_to "投稿一覧へ", posts_path, class: "btn btn-primary mb-3" %>
+  <!-- 🔸投稿一覧リンク -->
+  <div class="mb-4">
+    <%= link_to "投稿一覧へ", posts_path, class: "btn btn-outline-dark" %>
+  </div>
 
-  <h2>新着Post</h2>
+  <!-- 🔸新着投稿 -->
+  <h3 class="mb-3 fw-bold">新着Post</h3>
   <div class="row">
-    <% @recent_posts.each do |post| %>
-      <div class="col-md-4 mb-3">
-        <div class="card h-100">
+    <% @recent_posts.limit(6).each do |post| %>
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 shadow-sm">
           <% if post.images.attached? %>
             <% image = post.images.first %>
-            <%= image_tag image.variant(resize_to_limit: [300, 300]).processed, class: "card-img-top" %>
+            <%= image_tag image.variant(resize_to_limit: [400, 300]).processed, class: "card-img-top" %>
           <% end %>
           <div class="card-body">
-            <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
+            <h5 class="card-title">
+              <%= link_to post.title, post_path(post), class: "text-decoration-none" %>
+            </h5>
             <p class="card-text"><%= truncate(post.content, length: 50) %></p>
             <p class="card-text text-muted"><%= post.created_at.strftime("%Y-%m-%d %H:%M") %></p>
           </div>
@@ -25,4 +40,5 @@
       </div>
     <% end %>
   </div>
+
 </div>

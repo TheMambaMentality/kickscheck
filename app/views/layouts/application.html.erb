@@ -11,50 +11,58 @@
 </head>
 <body>
 
-<nav class="navbar d-flex justify-content-between align-items-center px-3 py-2" style="background-color: #f8f9fa;">
-  <div>
-    <!-- 🔸ロゴアイコン -->
-    <%= link_to root_path do %>
-      <%= image_tag "app_icon.png", alt: "KicksCheck Logo", size: "40x40", class: "app-icon me-2" %>
+<!-- 🔹 ヘッダー -->
+<nav class="navbar navbar-expand-md navbar-light custom-header px-4 py-2 border-bottom">
+  <div class="container">
+    <!-- ロゴ -->
+    <%= link_to root_path, class: "navbar-brand d-flex align-items-center" do %>
+      <%= image_tag "app_icon.png", alt: "KicksCheck Logo", size: "40x40", class: "me-2 app-icon" %>
+      <span class="fw-bold">KicksCheck</span>
     <% end %>
 
-    <!-- 🔸ナビゲーションリンク -->
-    <%= link_to "Home", root_path, class: "me-2" %>
-    <%= link_to "About", about_path, class: "me-2" %>
-    <% if user_signed_in? %>
-      <%= link_to "Profile", edit_user_registration_path, class: "me-2" %>
-      <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "me-2" %>
-    <% else %>
-      <%= link_to "Sign Up", new_user_registration_path, class: "me-2" %>
-      <%= link_to "Login", new_user_session_path, class: "me-2" %>
-    <% end %>
-  </div>
+    <!-- ナビゲーション -->
+    <div class="d-flex align-items-center">
+      <%= link_to "Home", root_path, class: "nav-item-style" %>
+      <%= link_to "About", about_path, class: "nav-item-style" %>
+      <% if user_signed_in? %>
+        <%= link_to "Profile", user_path(current_user), class: "nav-item-style" %>
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-item-style" %>
+      <% else %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "nav-item-style" %>
+        <%= link_to "Login", new_user_session_path, class: "nav-item-style" %>
+      <% end %>
+    </div>
 
-  <!-- 🔍 検索フォーム -->
-  <div>
-    <%= form_with url: search_posts_path, method: :get, local: true, class: "d-flex" do |f| %>
-      <%= f.text_field :keyword, placeholder: "商品名を検索", class: "form-control me-2", required: true %>
-      <%= f.submit "検索", class: "btn btn-outline-primary" %>
-    <% end %>
+    <!-- 検索フォーム -->
+    <div class="ms-auto">
+      <%= form_with url: search_posts_path, method: :get, local: true, class: "d-flex" do |f| %>
+        <%= f.text_field :keyword, placeholder: "商品名を検索", class: "form-control me-2", required: true %>
+        <%= f.submit "検索", class: "btn btn-outline-dark" %>
+      <% end %>
+    </div>
   </div>
 </nav>
 
-<!-- 🔹 フラッシュメッセージ -->
+<!-- フラッシュメッセージ -->
 <div class="container mt-3">
   <% if flash[:notice] %>
-    <div id="flash-message" class="alert alert-success">
-      <%= flash[:notice] %>
-    </div>
+    <div id="flash-message" class="alert alert-success"><%= flash[:notice] %></div>
   <% elsif flash[:alert] %>
-    <div id="flash-message" class="alert alert-danger">
-      <%= flash[:alert] %>
-    </div>
+    <div id="flash-message" class="alert alert-danger"><%= flash[:alert] %></div>
   <% end %>
 </div>
 
+<!-- メイン表示 -->
 <%= yield %>
 
-<!-- 🔹 フラッシュメッセージを自動でフェードアウト -->
+<!-- 🔻 フッター -->
+<footer class="custom-footer border-top mt-5">
+  <div class="container text-center py-3">
+    <small>&copy; 2025 KicksCheck. All rights reserved.</small>
+  </div>
+</footer>
+
+<!-- フラッシュ自動非表示 -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     let flashMessage = document.getElementById("flash-message");
