@@ -1,10 +1,62 @@
+/* ヘッダーのロゴや全体のレイアウト調整 */
 .navbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  
-    .app-icon {
-      width: 40px;
-      height: 40px;
-    }
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ロゴ画像サイズ（app_icon） */
+.app-icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* トップビジュアル画像を横幅いっぱいに表示 */
+.top-visual img {
+  width: 100%;
+  height: auto;
+  max-height: 350px;
+}
+
+.top-logo {
+  width: 100px;
+  height: auto;
+}
+
+/* カスタムナビゲーションリンク */
+.nav-item-style {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border: 1px solid white;
+  border-radius: 4px;
+  color: black;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nav-item-style:hover {
+  background-color: white;
+  color: black;
+  text-decoration: none;
+}
+
+/* ヘッダー背景色 */
+.custom-header {
+  background-color: #f0f0f0;
+}
+
+/* フッター背景・境界・文字 */
+.custom-footer {
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc;
+  color: black;
+}
+
+/* スマホでも見やすくするための余白 */
+@media (max-width: 768px) {
+  .nav-item-style {
+    margin-left: 4px;
+    padding: 4px 6px;
+    font-size: 0.8rem;
   }
+}

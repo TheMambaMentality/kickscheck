@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   # 管理者ログイン後の遷移先
   def after_sign_in_path_for(resource)
     if resource.is_a?(Admin)
-      admin_top_path
+      admin_root_path 
     else
       posts_path
     end
