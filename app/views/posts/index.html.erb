@@ -19,6 +19,15 @@
           <p class="card-text"><%= truncate(post.content, length: 50) %></p>
           <p class="text-muted"><%= post.created_at.strftime("%Y-%m-%d %H:%M") %></p>
 
+          <% if post.tag_list.present? %>
+          <p>
+            <strong>タグ:</strong>
+            <% post.tag_list.each do |tag| %>
+              <span class="badge badge-info"><%= tag %></span>
+            <% end %>
+          </p>
+        <% end %>
+
           <%= link_to "詳細", post_path(post), class: "btn btn-outline-primary btn-sm" %>
           <% if post.user == current_user %>
             <%= link_to "編集", edit_post_path(post), class: "btn btn-outline-warning btn-sm" %>

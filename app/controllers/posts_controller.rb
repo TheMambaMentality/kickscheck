@@ -21,15 +21,23 @@ class PostsController < ApplicationController
 
   # 🔹 投稿の作成
   def create
-    @post = Post.new(post_params)
-    @post.user_id = current_user.id
-
+    @post = current_user.posts.build(post_params)
+  
     if @post.save
-      redirect_to @post, notice: "投稿が作成されました！"
+      if @post.images.attached?
+        # blobを使ってファイルを開く
+        @post.images.first.blob.open do |file|
+          tags = Vision.get_image_data(file)
+          @post.tag_list.add(tags)
+          @post.save
+        end
+      end
+      redirect_to @post, notice: '投稿が完了しました'
     else
       render :new
     end
   end
+
 
   # 🔹 投稿詳細
   def show
@@ -57,7 +65,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, images: [])
+    params.require(:post).permit(:title, :content, :tag_list, images: [])
   end
 
   def set_post

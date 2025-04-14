@@ -2,6 +2,9 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many_attached :images
   has_many :comments, dependent: :destroy
+  has_many :tags, dependent: :destroy
+  acts_as_taggable_on :tags
+
 
   # 対応形式のバリデーション
   validate :images_format
