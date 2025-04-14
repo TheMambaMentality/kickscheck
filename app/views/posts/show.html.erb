@@ -1,6 +1,17 @@
 <h2><%= @post.title %></h2>
 <p><%= @post.content %></p>
 
+<!-- 🔸 タグ表示（tag_listベースに修正） -->
+<% if @post.tag_list.any? %>
+  <div class="mb-3">
+    <strong>メーカー:</strong>
+    <% @post.tag_list.each do |tag| %>
+      <span class="badge bg-secondary"><%= tag %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<!-- 🔸 投稿画像 -->
 <% if @post.images.attached? %>
   <div class="d-flex flex-wrap mb-3">
     <% @post.images.each do |image| %>
@@ -9,6 +20,7 @@
   </div>
 <% end %>
 
+<!-- 🔸 投稿者操作リンク -->
 <% if @post.user == current_user %>
   <%= link_to "編集", edit_post_path(@post) %> |
   <%= link_to "削除", post_path(@post), method: :delete, data: { confirm: "本当に削除しますか？" } %> |
@@ -18,7 +30,7 @@
 
 <hr>
 
-<!-- 🔸 コメントエリア -->
+<!-- 🔸 コメントセクション -->
 <h3>コメント</h3>
 
 <% if flash[:alert] %>
@@ -29,6 +41,7 @@
   <div class="alert alert-success"><%= flash[:notice] %></div>
 <% end %>
 
+<!-- 🔸 コメントフォーム -->
 <%= form_with(model: [@post, Comment.new], local: true) do |f| %>
   <div class="form-group">
     <%= f.label :content, "コメント内容" %>
